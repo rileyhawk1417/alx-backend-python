@@ -15,6 +15,44 @@ from typing import Dict
 from parameterized import parameterized
 from client import GithubOrgClient
 
+repo_payload = {
+    'repos_url': 'https://api.github.com/users/google/repos',
+    'repos': [
+        {
+            "id": 7697149,
+            "name": "episodes.dart",
+            "full_name": "google/episodes.dart",
+            "private": False,
+            "owner": {
+                "login": "google",
+                "id": 1342004,
+            },
+            "fork": False,
+            "url": "https://api.github.com/repos/google/episodes.dart",
+            "created_at": "2013-01-19T00:31:37Z",
+            "updated_at": "2019-09-23T11:53:58Z",
+            "has_issues": True,
+            "forks": 22,
+            "default_branch": "master",
+        },
+        {
+            "id": 7776515,
+            "node_id": "MDEwOlJlcG9zaXRvcnk3Nzc2NTE1",
+            "name": "cpp-netlib",
+            "private": False,
+            "owner": {
+                "login": "google",
+                "id": 1342004,
+            },
+            "fork": True,
+            "url": "https://api.github.com/repos/google/cpp-netlib",
+            "has_issues": False,
+            "forks": 59,
+            "default_branch": "master",
+        },
+    ]
+}
+
 
 class TestGithubOrgClient(unittest.TestCase):
     """Test case for `GithubOrgClient`"""
@@ -47,3 +85,23 @@ class TestGithubOrgClient(unittest.TestCase):
                 GithubOrgClient('google')._public_repos_url,
                 'https://api.github.com/users/google/repos'
             )
+
+    @patch('client.get_json')
+    def test_public_repos(self, mock_get_json: MagicMock) -> None:
+        """Test the public repo method"""
+        test_payload = repo_payload
+        mock_get_json.return_value = test_payload['repos']
+        with patch(
+            'client.GithubORgClient._public_repos_url',
+            new_callable=PropertyMock
+        ) as res:
+            res.return_value = test_payload['repos_url']
+            self.assertEqual(
+                GithubOrgClient('google').public_repos(),
+                [
+                    'episodes.dart'
+                    'cpp-netlib'
+                ],
+            )
+            res.assert_called_once()
+        mock_get_json.assert_called_once()
