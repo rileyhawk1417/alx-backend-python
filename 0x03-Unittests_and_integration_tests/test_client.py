@@ -92,7 +92,7 @@ class TestGithubOrgClient(unittest.TestCase):
         test_payload = repo_payload
         mock_get_json.return_value = test_payload['repos']
         with patch(
-            'client.GithubORgClient._public_repos_url',
+            'client.GithubOrgClient._public_repos_url',
             new_callable=PropertyMock
         ) as res:
             res.return_value = test_payload['repos_url']
@@ -105,3 +105,13 @@ class TestGithubOrgClient(unittest.TestCase):
             )
             res.assert_called_once()
         mock_get_json.assert_called_once()
+
+    @parameterized.expand([
+        ({'license': {'key': 'bsd-3-clause'}}, 'bsd-3-clause', True),
+        ({'license': {'key': 'bsl-1.0'}}, 'bsd-3-clause', False),
+    ])
+    def test_has_license(self, repo: Dict, key: str, expected: bool) -> None:
+        """Test the license method"""
+        gh_client = GithubOrgClient('google')
+        has_license = gh_client.has_license(repo, key)
+        self.assertEqual(has_license, expected)
