@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-
+"""This module tests nested maps. 
+Has a use case for nested
+Data like JSON for example ;)
+"""
 import unittest
 from parameterized import parameterized
 from typing import (
@@ -30,3 +33,17 @@ class TestAccessNestedMap(unittest.TestCase):
     ) -> None:
         """Test access_nested_map output"""
         self.assertEqual(access_nested_map(nested_map, path), expected)
+
+    @parameterized.expand([
+        ({}, ('b',), KeyError),
+        ({'b': 4}, ('d', 'c'), KeyError),
+    ])
+    def test_access_nested_map_exception(
+        self,
+        nested_map: Mapping,
+        path: Sequence,
+        exception: Exception
+    ) -> None:
+        """Test access_nested_map exception raising check"""
+        with self.assertRaises(exception):
+            access_nested_map(nested_map, path)
