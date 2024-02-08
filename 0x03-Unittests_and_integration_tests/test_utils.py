@@ -95,7 +95,5 @@ class TestMemoize(unittest.TestCase):
             test_class = TestClass()
             self.assertEqual(test_class.a_property(), 42)
             self.assertEqual(test_class.a_property(), 42)
-            self.assertEqual(test_class.a_property(), 42)
-            self.assertEqual(test_class.a_property(), 42)
             # NOTE: Just checks if the function was only called once
             memo_func.assert_called_once()
