@@ -4,16 +4,18 @@
 Except that it uses task_wait_random
 """
 
+import asyncio
+from typing import List
 task_wait_random = __import__("3-tasks.py").task_wait_random
 
 
-async def task_wait_n(n, max_delay):
+async def task_wait_n(n: int, max_delay: int) -> List[float]:
     """The function runs coroutines n number of times
     n: int
     max_delay: int
     """
-    number_list = []
-    for _ in range(n):
-        number_list.append(await task_wait_random(max_delay))
+    number_list = await asyncio.gather(
+        *tuple(map(lambda _: task_wait_random(max_delay), range(n)
+                   )))
 
-    return number_list.sort()
+    return sorted(number_list)
