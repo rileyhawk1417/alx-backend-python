@@ -3,6 +3,7 @@
 multiple coroutines
 """
 
+import asyncio
 wait_random = __import__("0-basic_async_syntax.py").wait_random
 
 
@@ -11,8 +12,8 @@ async def wait_n(n, max_delay):
     n: int
     max_delay: int
     """
-    number_list = []
-    for _ in range(n):
-        number_list.append(await wait_random(max_delay))
+    number_list = await asyncio.gather(
+        *list(map(lambda _: wait_random(max_delay), range(n)))
+    )
 
     return number_list.sort()

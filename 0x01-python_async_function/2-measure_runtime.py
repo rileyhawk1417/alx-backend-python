@@ -14,4 +14,4 @@ async def measure_time(n, max_delay):
     start_time = time.time()
     await wait_n(n, max_delay)
     stop_time = time.time()
-    return stop_time - start_time
+    return (stop_time - start_time) / n
