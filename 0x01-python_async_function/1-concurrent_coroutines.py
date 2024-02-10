@@ -5,7 +5,7 @@ multiple coroutines
 
 from typing import List
 import asyncio
-wait_random = __import__("0-basic_async_syntax.py").wait_random
+wait_random = __import__("0-basic_async_syntax").wait_random
 
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
@@ -13,7 +13,7 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
     n: int
     max_delay: int
     """
-    number_list = await asyncio.gather(
+    number_list: list = await asyncio.gather(
         *list(map(lambda _: wait_random(max_delay), range(n)))
     )
 

@@ -3,7 +3,7 @@
 
 import time
 
-wait_n = __import__("1-concurrent_coroutines.py").wait_n
+wait_n = __import__("1-concurrent_coroutines").wait_n
 
 
 async def measure_time(n: int, max_delay: int) -> float:
