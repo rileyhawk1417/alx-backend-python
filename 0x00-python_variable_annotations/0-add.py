@@ -1,4 +1,4 @@
-#!/usr/bin/ev python3
+#!/usr/bin/env python3
 """
 Annotate an add function
 """
