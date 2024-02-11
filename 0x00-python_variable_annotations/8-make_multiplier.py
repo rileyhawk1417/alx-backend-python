@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Module implement's callable functions
+"""
 
 from typing import Callable
 
