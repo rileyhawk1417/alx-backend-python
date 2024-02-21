@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-
+"""
+Module measures runtimes
+"""
 import time
 import asyncio
 
@@ -12,11 +14,6 @@ async def measure_runtime():
     """
     start_time = time.time()
     await asyncio.gather(
-        async_comprehension(),
-        async_comprehension(),
-        async_comprehension(),
-        async_comprehension(),
+        *(async_comprehension() for _ in range(4))
     )
-    stop_time = time.time()
-    total_time = stop_time - start_time
-    return total_time
+    return time.time() - start_time

@@ -7,7 +7,4 @@ async def async_comprehension():
     """This function runs an async function
     then generates numbers
     """
-    number_list = []
-    async for i in async_generator():
-        number_list.append(i)
-    return number_list
+    return [ran async for ran in async_generator()]

@@ -9,4 +9,4 @@ async def async_generator():
     """The function runs a coroutine 10 times"""
     for _ in range(10):
         await asyncio.sleep(1)
-        return random.uniform(0, 10)
+        yield random.uniform(0, 10)
